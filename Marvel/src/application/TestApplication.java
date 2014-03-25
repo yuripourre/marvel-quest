@@ -1,12 +1,13 @@
 package application;
 
+import application.hero.Beast;
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
-import br.com.etyllica.layer.AnimatedLayer;
 import br.com.etyllica.layer.BufferedLayer;
+import br.com.tide.input.controller.EasyController;
 
 public class TestApplication extends Application {
 
@@ -16,7 +17,7 @@ public class TestApplication extends Application {
 
 	private BufferedLayer wolverine;
 	
-	private AnimatedLayer hank;
+	private Beast hank;
 
 	@Override
 	public void load() {
@@ -26,10 +27,9 @@ public class TestApplication extends Application {
 		wolverine.setH(64);
 		wolverine.flipHorizontal();
 		
-		hank = new AnimatedLayer(40, 40, 64, 96, "sprites/beast.png");
-		hank.setFrames(4);
-		hank.setSpeed(300);
-				
+		hank = new Beast(40, 40);
+		hank.setController(new EasyController());
+						
 		updateAtFixedRate(30);
 		
 		loading = 100;
@@ -38,7 +38,7 @@ public class TestApplication extends Application {
 	@Override
 	public void timeUpdate(long now){
 		
-		hank.animate(now);
+		hank.update(now);
 		
 	}
 	
@@ -54,17 +54,7 @@ public class TestApplication extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 		
-		if(event.isKeyDown(KeyEvent.TSK_RIGHT_ARROW)) {
-			hank.setOffsetX(20);
-		} else if(event.isKeyDown(KeyEvent.TSK_LEFT_ARROW)) {
-			hank.setOffsetX(-20);
-		}
-		
-		if(event.isKeyDown(KeyEvent.TSK_DOWN_ARROW)) {
-			hank.setOffsetY(20);
-		} else if(event.isKeyDown(KeyEvent.TSK_UP_ARROW)) {
-			hank.setOffsetY(-20);
-		}
+		hank.handleEvent(event);
 		
 		// TODO Auto-generated method stub
 		return null;
