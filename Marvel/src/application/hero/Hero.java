@@ -25,6 +25,9 @@ public class Hero extends Player implements Drawable {
 		layer.setFrames(4);
 		layer.setSpeed(300);
 		
+		layer.setNeedleX(0);
+		layer.setNeedleY(0);
+		
 		layer.setYImage(0);
 		layer.setXImage(0);
 		
