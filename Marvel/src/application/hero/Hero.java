@@ -13,6 +13,8 @@ public class Hero extends Player implements Drawable {
 	public Hero(int x, int y, String path) {
 		super();
 		
+		walkSpeed = 3;
+		
 		layer = new AnimatedLayer(x, y, 64, 96, path);
 		layer.setFrames(4);
 		layer.setSpeed(300);
@@ -52,6 +54,29 @@ public class Hero extends Player implements Drawable {
 		layer.setTileH(96);
 		
 	}
+	
+	@Override
+	public void onWalkRight() {
+		
+		layer.setFrames(6);
+		layer.setSpeed(200);
+
+		layer.setTileW(64);
+		layer.setTileH(96);
+		
+		layer.setXImage(layer.getTileW()*0);
+		layer.setYImage(layer.getTileH()*0);
+		
+		layer.setNeedleX(layer.getTileW()*4);
+		layer.setNeedleY(layer.getTileH()*1);
+				
+	}
+	
+	@Override
+	public void onStopWalkRight() {
+		super.stand();
+	}
+
 	
 	@Override
 	public void draw(Graphic g) {
