@@ -7,6 +7,7 @@ import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.BufferedLayer;
+import br.com.tide.input.controller.Controller;
 import br.com.tide.input.controller.EasyController;
 
 public class TestApplication extends Application {
@@ -18,17 +19,20 @@ public class TestApplication extends Application {
 	private BufferedLayer wolverine;
 	
 	private Beast hank;
+	
+	private Controller easyController;
 
 	@Override
 	public void load() {
-
+		
 		wolverine = new BufferedLayer(160,260,"sprites/wolverine.png");
 		wolverine.setW(64);
 		wolverine.setH(64);
 		wolverine.flipHorizontal();
 		
 		hank = new Beast(40, 40);
-		hank.setController(new EasyController());
+		
+		easyController = new EasyController(hank);
 						
 		updateAtFixedRate(30);
 		
@@ -54,9 +58,8 @@ public class TestApplication extends Application {
 	@Override
 	public GUIEvent updateKeyboard(KeyEvent event) {
 		
-		hank.handleEvent(event);
+		easyController.handleEvent(event);
 		
-		// TODO Auto-generated method stub
 		return null;
 	}
 
