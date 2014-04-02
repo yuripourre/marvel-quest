@@ -1,4 +1,5 @@
-import application.TestApplication;
+import com.marvel.quest.FirstStage;
+
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.context.Application;
 
@@ -22,7 +23,7 @@ public class MarvelGame extends EtyllicaFrame {
 	@Override
 	public Application startApplication() {
 				
-		return new TestApplication(w, h);
+		return new FirstStage(w, h);
 	}
 
 }

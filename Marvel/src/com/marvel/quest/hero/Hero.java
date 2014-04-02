@@ -1,36 +1,24 @@
-package application.hero;
+package com.marvel.quest.hero;
 
 import java.awt.Color;
 
-import br.com.etyllica.core.Drawable;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.AnimatedLayer;
-import br.com.tide.platform.player.Player;
 import br.com.tide.platform.player.PlayerState;
 
-public class Hero extends Player implements Drawable {
+public class Hero extends MarvelCharacter {
 
 	protected AnimatedLayer layer;
 
-	private boolean turnedRight = true;
-	
-	private String rightPath;
-	
-	private String leftPath;
-
 	public Hero(int x, int y, String rightPath, String leftPath) {
-		super();
+		super(rightPath, leftPath);
 
 		walkSpeed = 3;
 				
 		layer = new AnimatedLayer(x, y, 64, 96, rightPath);
-		layer.setFrames(4);
-		layer.setSpeed(300);
 		
-		this.rightPath = rightPath;
+		onStand();
 		
-		this.leftPath = leftPath;
-
 	}
 
 	@Override

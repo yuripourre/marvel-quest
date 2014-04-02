@@ -1,4 +1,4 @@
-package application.hero;
+package com.marvel.quest.hero;
 
 
 public class Beast extends Hero {
