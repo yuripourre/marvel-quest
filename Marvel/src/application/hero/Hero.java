@@ -1,5 +1,7 @@
 package application.hero;
 
+import java.awt.Color;
+
 import br.com.etyllica.core.Drawable;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.AnimatedLayer;
@@ -11,15 +13,23 @@ public class Hero extends Player implements Drawable {
 	protected AnimatedLayer layer;
 
 	private boolean turnedRight = true;
+	
+	private String rightPath;
+	
+	private String leftPath;
 
-	public Hero(int x, int y, String path) {
+	public Hero(int x, int y, String rightPath, String leftPath) {
 		super();
 
 		walkSpeed = 3;
-
-		layer = new AnimatedLayer(x, y, 64, 96, path);
+				
+		layer = new AnimatedLayer(x, y, 64, 96, rightPath);
 		layer.setFrames(4);
 		layer.setSpeed(300);
+		
+		this.rightPath = rightPath;
+		
+		this.leftPath = leftPath;
 
 	}
 
@@ -95,16 +105,22 @@ public class Hero extends Player implements Drawable {
 			layer.setTileW(64);
 			layer.setTileH(96);
 
-			if(turnedRight){
+			layer.setXImage(layer.getTileW()*0);
+			layer.setYImage(layer.getTileH()*0);
 
-				layer.setXImage(layer.getTileW()*0);
-				layer.setYImage(layer.getTileH()*0);
+			layer.setNeedleX(layer.getTileW()*4);
+			layer.setNeedleY(layer.getTileH()*1);
+			
+		}
+		
+		if(turnedRight) {
 
-				layer.setNeedleX(layer.getTileW()*4);
-				layer.setNeedleY(layer.getTileH()*1);
+			layer.setPath(rightPath);
 
-			}
-
+		} else {
+		
+			layer.setPath(leftPath);
+			
 		}
 		
 	}
@@ -147,7 +163,24 @@ public class Hero extends Player implements Drawable {
 
 	@Override
 	public void draw(Graphic g) {
+	
+		g.setAlpha(70);
+		drawShadow(g);
+		
+		g.setAlpha(100);		
 		layer.draw(g);
+	}
+	
+	private void drawShadow(Graphic g) {
+				
+		g.setColor(Color.BLACK);
+		
+		int shadowSize = 16;
+		
+		int offset = shadowSize-shadowSize/4;
+		
+		g.fillOval(layer.getX(), layer.getY()+layer.getTileH()-offset, layer.getTileW(), shadowSize);
+		
 	}
 
 	public void animate(long now) {
