@@ -1,7 +1,8 @@
-package com.marvel.quest.hero;
+package com.marvel.quest.enemy;
 
 
-public class StrongMan extends Hero {
+
+public class StrongMan extends Enemy {
 
 	public StrongMan(int x, int y) {
 		super(x, y, "sprites/strongman.png", "sprites/strongman_inv.png");
@@ -26,6 +27,23 @@ public class StrongMan extends Hero {
 		layer.setTileW(64);
 		layer.setTileH(96);
 
+	}
+	
+	@Override
+	public void onWalk() {
+		
+		layer.setFrames(4);
+		layer.setSpeed(150);
+
+		layer.setTileW(64);
+		layer.setTileH(96);
+
+		layer.setXImage(layer.getTileW()*1);
+		layer.setYImage(layer.getTileH()*0);
+
+		layer.setNeedleX(layer.getTileW()*1);
+		layer.setNeedleY(layer.getTileH()*0);
+		
 	}
 
 }

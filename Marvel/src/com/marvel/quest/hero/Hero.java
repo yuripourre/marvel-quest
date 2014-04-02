@@ -82,22 +82,28 @@ public class Hero extends MarvelCharacter {
 	public void onWalkUp() {
 		animateWalk();
 	}
+	
+	public void onWalk() {
+		
+		layer.setFrames(6);
+		layer.setSpeed(150);
+
+		layer.setTileW(64);
+		layer.setTileH(96);
+
+		layer.setXImage(layer.getTileW()*0);
+		layer.setYImage(layer.getTileH()*0);
+
+		layer.setNeedleX(layer.getTileW()*4);
+		layer.setNeedleY(layer.getTileH()*1);
+		
+	}
 
 	private void animateWalk() {
 
 		if(!isWalking()) {
 
-			layer.setFrames(6);
-			layer.setSpeed(150);
-
-			layer.setTileW(64);
-			layer.setTileH(96);
-
-			layer.setXImage(layer.getTileW()*0);
-			layer.setYImage(layer.getTileH()*0);
-
-			layer.setNeedleX(layer.getTileW()*4);
-			layer.setNeedleY(layer.getTileH()*1);
+			onWalk();
 			
 		}
 		
@@ -164,10 +170,8 @@ public class Hero extends MarvelCharacter {
 		g.setColor(Color.BLACK);
 		
 		int shadowSize = 16;
-		
-		int offset = shadowSize-shadowSize/4;
-		
-		g.fillOval(layer.getX(), layer.getY()+layer.getTileH()-offset, layer.getTileW(), shadowSize);
+				
+		g.fillOval(layer.getX(), this.getY(), layer.getTileW(), shadowSize);
 		
 	}
 
@@ -194,5 +198,19 @@ public class Hero extends MarvelCharacter {
 		}
 
 	}
+
+	public int getX() {
+		return layer.getX()+layer.getTileW()/2;
+	}
+	
+	public int getY() {
+		
+		int shadowSize = 16;
+		
+		int offset = shadowSize-shadowSize/4;
+		
+		return layer.getY()+layer.getTileH()-offset;
+	}
+
 
 }

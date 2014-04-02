@@ -1,8 +1,9 @@
 package com.marvel.quest;
 
+import com.marvel.quest.enemy.Enemy;
+import com.marvel.quest.enemy.StrongMan;
 import com.marvel.quest.hero.Beast;
 import com.marvel.quest.hero.MarvelCharacter;
-import com.marvel.quest.hero.StrongMan;
 
 import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
@@ -28,7 +29,7 @@ public class FirstStage extends Application {
 	
 	private Controller easyController;
 	
-	private MarvelCharacter strongMan;
+	private Enemy strongMan;
 
 	@Override
 	public void load() {
@@ -45,6 +46,8 @@ public class FirstStage extends Application {
 		easyController = new EasyController(hank);
 		
 		strongMan = new StrongMan(300, 100);
+		
+		strongMan.setTarget(hank);
 		
 		updateAtFixedRate(30);
 		
