@@ -18,14 +18,31 @@ public class StrongMan extends Enemy {
 		layer.setFrames(1);
 		layer.setSpeed(300);
 
+		layer.setTileW(64);
+		layer.setTileH(96);
+		
 		layer.setNeedleX(0);
 		layer.setNeedleY(0);
 
 		layer.setYImage(0);
 		layer.setXImage(0);
 
+	}
+	
+	@Override
+	public void onAttack() {
+
+		layer.setFrames(3);
+		layer.setSpeed(180);
+
 		layer.setTileW(64);
 		layer.setTileH(96);
+		
+		layer.setNeedleX(layer.getTileW()*5);
+		layer.setNeedleY(layer.getTileH()*0);
+
+		layer.setXImage(layer.getTileW()*5);
+		layer.setYImage(layer.getTileH()*0);
 
 	}
 	
