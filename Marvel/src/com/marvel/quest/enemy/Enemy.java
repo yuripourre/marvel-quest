@@ -36,18 +36,14 @@ public class Enemy extends Hero implements AnimationListener {
 				
 			} else {
 				
-<<<<<<< HEAD
 				if(isWalking()) {
 					stopWalk();
 					startAttack = now;
 					
 					stand();					
 				}
-				
-				if(now>=startAttack+attackDelay) {
-=======
+		
 				if(now >= startAttack+attackDelay) {
->>>>>>> 18595ea03ae93c172f9f1597b4de66364d1e5bb9
 	
 					if(!isAttacking()) {
 					
