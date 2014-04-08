@@ -1,8 +1,10 @@
 package com.marvel.quest.enemy;
 
+import br.com.etyllica.animation.AnimationListener;
+
 import com.marvel.quest.hero.Hero;
 
-public class Enemy extends Hero {
+public class Enemy extends Hero implements AnimationListener {
 
 	private Hero target;
 	
@@ -12,6 +14,8 @@ public class Enemy extends Hero {
 	
 	public Enemy(int x, int y, String rightPath, String leftPath) {
 		super(x, y, rightPath, leftPath);
+		
+		this.layer.setListener(this);
 	}
 
 	@Override
@@ -32,6 +36,7 @@ public class Enemy extends Hero {
 				
 			} else {
 				
+<<<<<<< HEAD
 				if(isWalking()) {
 					stopWalk();
 					startAttack = now;
@@ -40,6 +45,9 @@ public class Enemy extends Hero {
 				}
 				
 				if(now>=startAttack+attackDelay) {
+=======
+				if(now >= startAttack+attackDelay) {
+>>>>>>> 18595ea03ae93c172f9f1597b4de66364d1e5bb9
 	
 					if(!isAttacking()) {
 					
@@ -47,12 +55,7 @@ public class Enemy extends Hero {
 					
 						startAttack = now;
 						
-					}
-					
-					if(layer.getCurrentFrame() >= layer.getFrames()-1) {
-						stand();
-						stopAttack();
-					}
+					}					
 
 				}
 				
@@ -68,6 +71,15 @@ public class Enemy extends Hero {
 
 	public void setTarget(Hero target) {
 		this.target = target;
+	}
+
+	@Override
+	public void onEndAnimation() {
+		
+		if(isAttacking()) {
+			stand();
+		}
+				
 	}
 
 }
