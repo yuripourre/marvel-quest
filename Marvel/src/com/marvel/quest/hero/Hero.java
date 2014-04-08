@@ -4,6 +4,7 @@ import java.awt.Color;
 
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.AnimatedLayer;
+import br.com.etyllica.layer.GeometricLayer;
 import br.com.tide.platform.player.PlayerState;
 
 public class Hero extends MarvelCharacter {
@@ -169,9 +170,19 @@ public class Hero extends MarvelCharacter {
 				
 		g.setColor(Color.BLACK);
 		
-		int shadowSize = 16;
+		GeometricLayer shadow = getShadow();
+		
+		g.fillOval(shadow);
+		
+	}
+	
+	private GeometricLayer getShadow() {
 				
-		g.fillOval(layer.getX(), this.getY(), layer.getTileW(), shadowSize);
+		int shadowSize = 16;
+		
+		GeometricLayer shadow = new GeometricLayer(layer.getX(), this.getY(), layer.getTileW(), shadowSize);
+		
+		return shadow;
 		
 	}
 
