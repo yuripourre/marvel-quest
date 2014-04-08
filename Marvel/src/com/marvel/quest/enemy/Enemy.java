@@ -9,7 +9,7 @@ public class Enemy extends Hero {
 	private long attackDelay = 2000;
 	
 	private long startAttack = 0;
-
+	
 	public Enemy(int x, int y, String rightPath, String leftPath) {
 		super(x, y, rightPath, leftPath);
 	}
@@ -32,6 +32,13 @@ public class Enemy extends Hero {
 				
 			} else {
 				
+				if(isWalking()) {
+					stopWalk();
+					startAttack = now;
+					
+					stand();					
+				}
+				
 				if(now>=startAttack+attackDelay) {
 	
 					if(!isAttacking()) {
@@ -48,6 +55,7 @@ public class Enemy extends Hero {
 					}
 
 				}
+				
 			}
 
 		}
