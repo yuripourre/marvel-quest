@@ -10,6 +10,8 @@ import br.com.tide.platform.player.PlayerState;
 public class Hero extends MarvelCharacter {
 
 	protected AnimatedLayer layer;
+	
+	protected GeometricLayer shadow;
 
 	public Hero(int x, int y, String rightPath, String leftPath) {
 		super(rightPath, leftPath);
@@ -17,6 +19,8 @@ public class Hero extends MarvelCharacter {
 		walkSpeed = 3;
 				
 		layer = new AnimatedLayer(x, y, 64, 96, rightPath);
+		
+		shadow = new GeometricLayer();
 		
 		onStand();
 		
@@ -169,18 +173,16 @@ public class Hero extends MarvelCharacter {
 	private void drawShadow(Graphic g) {
 				
 		g.setColor(Color.BLACK);
-		
-		GeometricLayer shadow = getShadow();
-		
+				
 		g.fillOval(shadow);
 		
 	}
 	
-	private GeometricLayer getShadow() {
+	private GeometricLayer updateShadow() {
 				
 		int shadowSize = 16;
 		
-		GeometricLayer shadow = new GeometricLayer(layer.getX(), this.getY(), layer.getTileW(), shadowSize);
+		shadow.setBounds(layer.getX(), this.getY(), layer.getTileW(), shadowSize);
 		
 		return shadow;
 		
@@ -194,6 +196,8 @@ public class Hero extends MarvelCharacter {
 	public void update(long now) {
 		super.update(now);
 
+		updateShadow();
+		
 		animate(now);
 
 		if(state.contains(PlayerState.WALK_RIGHT)) {
