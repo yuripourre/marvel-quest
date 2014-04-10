@@ -68,7 +68,7 @@ public class Enemy extends Hero implements AnimationListener {
 
 		boolean walkVertical = false;
 
-		int verticalDistance = 32;
+		int verticalDistance = 16;
 
 		if(target.getY() < this.getY()-verticalDistance) {
 
@@ -132,12 +132,26 @@ public class Enemy extends Hero implements AnimationListener {
 	}
 
 	@Override
-	public void onEndAnimation() {
+	public void onEndAnimation(long now) {
 
 		if(isAttacking()) {
+			
+			hitTarget(now);
+			
 			stand();
+		
 		}
 
+	}
+	
+	private void hitTarget(long now) {
+		
+		if(target == null) {
+			return;
+		}
+		
+		target.beignHit(this, now);
+		
 	}
 
 }
