@@ -1,5 +1,6 @@
 package com.marvel.quest.enemy;
 
+import sound.model.Sound;
 import br.com.etyllica.animation.AnimationListener;
 import br.com.tide.platform.player.PlayerState;
 
@@ -12,11 +13,15 @@ public class Enemy extends Hero implements AnimationListener {
 	private long attackDelay = 2000;
 
 	private long startAttack = 0;
+	
+	private Sound punchSound;
 
 	public Enemy(int x, int y, String rightPath, String leftPath) {
 		super(x, y, rightPath, leftPath);
 
 		this.layer.setListener(this);
+		
+		punchSound = new Sound("punch.wav");
 	}
 		
 	protected boolean wasWalking = false;
@@ -62,6 +67,14 @@ public class Enemy extends Hero implements AnimationListener {
 
 		}
 
+	}
+	
+	@Override
+	public void attack() {
+		
+		super.attack();
+		
+		punchSound.play();
 	}
 
 	private boolean walkVertical() {
