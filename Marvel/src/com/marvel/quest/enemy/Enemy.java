@@ -1,12 +1,12 @@
 package com.marvel.quest.enemy;
 
 import sound.model.Sound;
-import br.com.etyllica.animation.AnimationListener;
+import br.com.etyllica.animation.listener.OnAnimationFinishListener;
 import br.com.tide.platform.player.PlayerState;
 
 import com.marvel.quest.hero.Hero;
 
-public class Enemy extends Hero implements AnimationListener {
+public class Enemy extends Hero implements OnAnimationFinishListener {
 
 	private Hero target;
 
@@ -19,7 +19,7 @@ public class Enemy extends Hero implements AnimationListener {
 	public Enemy(int x, int y, String rightPath, String leftPath) {
 		super(x, y, rightPath, leftPath);
 
-		this.layer.setListener(this);
+		this.layer.setOnAnimationFinishListener(this);
 		
 		punchSound = new Sound("punch.wav");
 	}
@@ -145,7 +145,7 @@ public class Enemy extends Hero implements AnimationListener {
 	}
 
 	@Override
-	public void onEndAnimation(long now) {
+	public void onAnimationFinish(long now) {
 
 		if(isAttacking()) {
 			

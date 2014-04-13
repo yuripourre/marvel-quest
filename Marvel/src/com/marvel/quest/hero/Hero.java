@@ -1,16 +1,23 @@
 package com.marvel.quest.hero;
 
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.geom.AffineTransform;
 
+import br.com.etyllica.animation.listener.OnAnimationFinishListener;
+import br.com.etyllica.animation.listener.OnFrameChangeListener;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.AnimatedLayer;
+import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.layer.GeometricLayer;
 import br.com.tide.platform.player.Player;
 import br.com.tide.platform.player.PlayerState;
 
-public class Hero extends MarvelCharacter {
+public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
 	protected AnimatedLayer layer;
+	
+	protected BufferedLayer buffer;
 	
 	protected GeometricLayer shadow;
 
@@ -21,8 +28,12 @@ public class Hero extends MarvelCharacter {
 				
 		layer = new AnimatedLayer(x, y, 64, 96, rightPath);
 		
-		shadow = new GeometricLayer();
+		layer.setOnFrameChangeListener(this);
 		
+		buffer = new BufferedLayer(x, y, 96, 96);//Max Tile Size
+		
+		shadow = new GeometricLayer();
+				
 		onStand();
 		
 	}
@@ -185,7 +196,10 @@ public class Hero extends MarvelCharacter {
 		drawShadow(g);
 		
 		g.setAlpha(100);		
-		layer.draw(g);
+		//layer.draw(g);
+		
+		buffer.draw(g);
+		
 	}
 	
 	private void drawShadow(Graphic g) {
@@ -255,6 +269,33 @@ public class Hero extends MarvelCharacter {
 		int offset = shadowSize-shadowSize/4;
 		
 		return layer.getY()+layer.getTileH()-offset;
+	}
+
+	@Override
+	//And On state change
+	public void onFrameChange(long now) {
+		
+		buffer.clearGraphics();
+		
+		Graphic g = buffer.getGraphics();
+		
+		int layerX = layer.getX();
+		int layerY = layer.getY();
+		
+		layer.setX(0);
+		layer.setY(0);
+		
+		layer.draw(g);
+		
+		buffer.refresh();
+
+		layer.setX(layerX);
+		layer.setY(layerY);
+		
+		//Change on Walk Events
+		buffer.setX(layerX);
+		buffer.setY(layerY);
+						
 	}
 
 
