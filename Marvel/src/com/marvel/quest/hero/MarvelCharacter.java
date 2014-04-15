@@ -7,19 +7,15 @@ public abstract class MarvelCharacter extends Player implements Drawable {
 
 	protected boolean turnedRight = true;
 	
-	protected String rightPath;
+	protected String path;
 	
-	protected String leftPath;
-
-	public MarvelCharacter(String rightPath, String leftPath) {
+	public MarvelCharacter(String path) {
 		super();
 	
 		this.turnedRight = true;
 		
-		this.rightPath = rightPath;
-		
-		this.leftPath = leftPath;
-
+		this.path = path;
+	
 	}
 
 }

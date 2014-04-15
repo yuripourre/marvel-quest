@@ -5,7 +5,7 @@ package com.marvel.quest.enemy;
 public class StrongMan extends Enemy {
 
 	public StrongMan(int x, int y) {
-		super(x, y, "sprites/strongman.png", "sprites/strongman_inv.png");
+		super(x, y, "sprites/strongman.png");
 		
 		onWalkLeft();
 		

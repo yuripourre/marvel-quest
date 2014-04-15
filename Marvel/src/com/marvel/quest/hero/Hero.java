@@ -21,12 +21,12 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 	
 	protected GeometricLayer shadow;
 
-	public Hero(int x, int y, String rightPath, String leftPath) {
-		super(rightPath, leftPath);
+	public Hero(int x, int y, String path) {
+		super(path);
 
 		walkSpeed = 3;
 				
-		layer = new AnimatedLayer(x, y, 64, 96, rightPath);
+		layer = new AnimatedLayer(0, 0, 64, 96, path);
 		
 		layer.setOnFrameChangeListener(this);
 		
@@ -52,12 +52,14 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
 		layer.setYImage(0);
 		layer.setXImage(0);
+		
+		changeState();
 
 	}
 
 	@Override
 	public void onAttack() {
-
+		
 		layer.setFrames(3);
 		layer.setSpeed(180);
 
@@ -69,6 +71,8 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
 		layer.setNeedleX(layer.getTileW()*1);
 		layer.setNeedleY(layer.getTileH()*1);
+		
+		changeState();
 
 	}
 	
@@ -86,7 +90,16 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
 		layer.setNeedleX(layer.getTileW()*0);
 		layer.setNeedleY(layer.getTileH()*2);
+		
+		changeState();
 
+	}
+	
+	@Override
+	public void stand() {
+		super.stand();
+		
+		changeState();
 	}
 
 	@Override
@@ -95,7 +108,7 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		turnedRight = false;
 
 		animateWalk();
-
+		
 	}
 
 	@Override
@@ -131,6 +144,8 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		layer.setNeedleX(layer.getTileW()*4);
 		layer.setNeedleY(layer.getTileH()*1);
 		
+		changeState();
+		
 	}
 
 	private void animateWalk() {
@@ -140,24 +155,14 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 			onWalk();
 			
 		}
-		
-		if(turnedRight) {
-
-			layer.setPath(rightPath);
-
-		} else {
-		
-			layer.setPath(leftPath);
 			
-		}
-		
 	}
 
 	@Override
 	public void onStopWalkUp() {
 
 		if(!isWalking()) {
-			super.stand();
+			this.stand();			
 		}
 
 	}
@@ -166,7 +171,7 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 	public void onStopWalkDown() {
 
 		if(!isWalking()) {
-			super.stand();
+			this.stand();
 		}
 
 	}
@@ -175,7 +180,7 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 	public void onStopWalkRight() {
 
 		if(!isWalking()) {
-			super.stand();
+			this.stand();
 		}
 
 	}
@@ -184,7 +189,7 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 	public void onStopWalkLeft() {
 
 		if(!isWalking()) {
-			super.stand();
+			this.stand();
 		}
 
 	}
@@ -196,8 +201,6 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		drawShadow(g);
 		
 		g.setAlpha(100);		
-		//layer.draw(g);
-		
 		buffer.draw(g);
 		
 	}
@@ -214,7 +217,7 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 				
 		int shadowSize = 16;
 		
-		shadow.setBounds(layer.getX(), this.getY(), layer.getTileW(), shadowSize);
+		shadow.setBounds(buffer.getX(), buffer.getY()+layer.getTileH()-shadowSize*2/3, layer.getTileW(), shadowSize);
 		
 		return shadow;
 		
@@ -236,21 +239,21 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
 		if(state.contains(PlayerState.WALK_RIGHT)) {
 			
-			this.layer.setOffsetX(walkSpeed);
+			this.buffer.setOffsetX(walkSpeed);
 			
 		} else if(state.contains(PlayerState.WALK_LEFT)) {
 			
-			this.layer.setOffsetX(-walkSpeed);
+			this.buffer.setOffsetX(-walkSpeed);
 			
 		}
 
 		if(state.contains(PlayerState.WALK_DOWN)) {
 			
-			this.layer.setOffsetY(walkSpeed);
+			this.buffer.setOffsetY(walkSpeed);
 			
 		} else if(state.contains(PlayerState.WALK_UP)) {
 			
-			this.layer.setOffsetY(-walkSpeed);
+			this.buffer.setOffsetY(-walkSpeed);
 			
 		}
 
@@ -258,17 +261,19 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
 	public int getX() {
 		
-		return layer.getX()+layer.getTileW()/2;
+		return buffer.getX()+shadow.getW()/2;
 		
 	}
 	
 	public int getY() {
-		
-		int shadowSize = 16;
-		
-		int offset = shadowSize-shadowSize/4;
-		
-		return layer.getY()+layer.getTileH()-offset;
+				
+		return shadow.getY();
+	}
+	
+	private void changeState() {
+				
+		onFrameChange(0);
+				
 	}
 
 	@Override
@@ -278,24 +283,15 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		buffer.clearGraphics();
 		
 		Graphic g = buffer.getGraphics();
-		
-		int layerX = layer.getX();
-		int layerY = layer.getY();
-		
-		layer.setX(0);
-		layer.setY(0);
-		
+				
 		layer.draw(g);
-		
+						
 		buffer.refresh();
 
-		layer.setX(layerX);
-		layer.setY(layerY);
-		
-		//Change on Walk Events
-		buffer.setX(layerX);
-		buffer.setY(layerY);
-						
+		if(!turnedRight) {
+			buffer.flipHorizontal();
+		}
+
 	}
 
 

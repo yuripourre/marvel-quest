@@ -16,8 +16,8 @@ public class Enemy extends Hero implements OnAnimationFinishListener {
 	
 	private Sound punchSound;
 
-	public Enemy(int x, int y, String rightPath, String leftPath) {
-		super(x, y, rightPath, leftPath);
+	public Enemy(int x, int y, String rightPath) {
+		super(x, y, rightPath);
 
 		this.layer.setOnAnimationFinishListener(this);
 		
@@ -71,7 +71,6 @@ public class Enemy extends Hero implements OnAnimationFinishListener {
 	
 	@Override
 	public void attack() {
-		
 		super.attack();
 		
 		punchSound.play();
