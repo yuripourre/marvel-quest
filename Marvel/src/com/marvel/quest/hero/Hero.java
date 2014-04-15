@@ -1,10 +1,7 @@
 package com.marvel.quest.hero;
 
 import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.geom.AffineTransform;
 
-import br.com.etyllica.animation.listener.OnAnimationFinishListener;
 import br.com.etyllica.animation.listener.OnFrameChangeListener;
 import br.com.etyllica.core.video.Graphic;
 import br.com.etyllica.layer.AnimatedLayer;
@@ -42,7 +39,7 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 	public void onStand() {
 
 		layer.setFrames(4);
-		layer.setSpeed(300);
+		layer.setSpeed(300);		
 
 		layer.setTileW(64);
 		layer.setTileH(96);
@@ -200,9 +197,9 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		g.setAlpha(70);
 		drawShadow(g);
 		
-		g.setAlpha(100);		
+		g.setAlpha(100);
 		buffer.draw(g);
-		
+				
 	}
 	
 	private void drawShadow(Graphic g) {
@@ -217,7 +214,11 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 				
 		int shadowSize = 16;
 		
-		shadow.setBounds(buffer.getX(), buffer.getY()+layer.getTileH()-shadowSize*2/3, layer.getTileW(), shadowSize);
+		int width = buffer.getModifiedBuffer().getWidth();
+		
+		int dif = width-layer.getTileW();
+		
+		shadow.setBounds(buffer.getX()+dif/2, buffer.getY()+layer.getTileH()-shadowSize*2/3, layer.getTileW(), shadowSize);
 		
 		return shadow;
 		
@@ -279,12 +280,20 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 	@Override
 	//And On state change
 	public void onFrameChange(long now) {
-		
+				
 		buffer.clearGraphics();
 		
 		Graphic g = buffer.getGraphics();
 				
+		int width = buffer.getModifiedBuffer().getWidth();
+		
+		int dif = width-layer.getTileW();
+		
+		this.layer.setX(dif/2);
+		
 		layer.draw(g);
+		
+		this.layer.setX(0);
 						
 		buffer.refresh();
 
