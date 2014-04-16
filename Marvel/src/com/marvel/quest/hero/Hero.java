@@ -10,14 +10,12 @@ import br.com.etyllica.layer.GeometricLayer;
 import br.com.tide.platform.player.Player;
 import br.com.tide.platform.player.PlayerState;
 
-public class Hero extends MarvelCharacter implements OnFrameChangeListener {
+public abstract class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
 	protected AnimatedLayer layer;
 	
 	protected BufferedLayer buffer;
 	
-	protected GeometricLayer shadow;
-
 	public Hero(int x, int y, String path) {
 		super(path);
 
@@ -28,32 +26,13 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		layer.setOnFrameChangeListener(this);
 		
 		buffer = new BufferedLayer(x, y, 96, 96);//Max Tile Size
-		
-		shadow = new GeometricLayer();
-				
+					
 		onStand();
 		
 	}
 
-	@Override
-	public void onStand() {
-
-		layer.setFrames(4);
-		layer.setSpeed(300);		
-
-		layer.setTileW(64);
-		layer.setTileH(96);
-		
-		layer.setNeedleX(0);
-		layer.setNeedleY(0);
-
-		layer.setYImage(0);
-		layer.setXImage(0);
-		
-		changeState();
-
-	}
-
+	public abstract void onWalk();
+	
 	@Override
 	public void onAttack() {
 		
@@ -127,24 +106,6 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		animateWalk();
 	}
 	
-	public void onWalk() {
-		
-		layer.setFrames(6);
-		layer.setSpeed(150);
-
-		layer.setTileW(64);
-		layer.setTileH(96);
-
-		layer.setXImage(layer.getTileW()*0);
-		layer.setYImage(layer.getTileH()*0);
-
-		layer.setNeedleX(layer.getTileW()*4);
-		layer.setNeedleY(layer.getTileH()*1);
-		
-		changeState();
-		
-	}
-
 	private void animateWalk() {
 
 		if(!isWalking()) {
@@ -271,7 +232,7 @@ public class Hero extends MarvelCharacter implements OnFrameChangeListener {
 		return shadow.getY();
 	}
 	
-	private void changeState() {
+	protected void changeState() {
 				
 		onFrameChange(0);
 				
