@@ -1,6 +1,7 @@
 package com.marvel.quest;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.marvel.quest.enemy.Enemy;
@@ -82,6 +83,8 @@ public class FirstStage extends Application {
 		
 		gambit.update(now);
 		
+		Collections.sort(characters);
+		
 	}
 	
 	@Override
@@ -89,12 +92,12 @@ public class FirstStage extends Application {
 		
 		background.draw(g);
 		
-		strongMan.draw(g);
-		
-		hank.draw(g);
-		
-		gambit.draw(g);
-		
+		for(MarvelCharacter character: characters) {
+			
+			character.draw(g);
+			
+		}
+				
 	}
 	
 	@Override
