@@ -6,7 +6,7 @@ import br.com.tide.platform.player.PlayerState;
 
 import com.marvel.quest.hero.Hero;
 
-public class Enemy extends Hero implements OnAnimationFinishListener {
+public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 
 	private Hero target;
 
