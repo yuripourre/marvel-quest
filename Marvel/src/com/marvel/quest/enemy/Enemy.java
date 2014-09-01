@@ -2,7 +2,7 @@ package com.marvel.quest.enemy;
 
 import sound.model.Sound;
 import br.com.etyllica.animation.listener.OnAnimationFinishListener;
-import br.com.tide.platform.player.PlayerState;
+import br.com.tide.PlayerState;
 
 import com.marvel.quest.hero.Hero;
 
@@ -96,9 +96,9 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 
 		} else if(hasState(PlayerState.WALK_UP, PlayerState.WALK_DOWN)) {
 
-			state.remove(PlayerState.WALK_UP);
+			states.remove(PlayerState.WALK_UP);
 
-			state.remove(PlayerState.WALK_DOWN);
+			states.remove(PlayerState.WALK_DOWN);
 
 		}
 
@@ -126,9 +126,9 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 
 		} else if(hasState(PlayerState.WALK_LEFT, PlayerState.WALK_RIGHT)) {
 
-			state.remove(PlayerState.WALK_LEFT);
+			states.remove(PlayerState.WALK_LEFT);
 
-			state.remove(PlayerState.WALK_RIGHT);
+			states.remove(PlayerState.WALK_RIGHT);
 
 		}
 

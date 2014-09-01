@@ -3,12 +3,12 @@ package com.marvel.quest.hero;
 import java.awt.Color;
 
 import br.com.etyllica.animation.listener.OnFrameChangeListener;
-import br.com.etyllica.core.video.Graphic;
+import br.com.etyllica.core.graphics.Graphic;
 import br.com.etyllica.layer.AnimatedLayer;
 import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.layer.GeometricLayer;
-import br.com.tide.platform.player.Player;
-import br.com.tide.platform.player.PlayerState;
+import br.com.tide.ActivePlayer;
+import br.com.tide.PlayerState;
 
 public abstract class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
@@ -53,7 +53,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 	
 	@Override
-	public void onBeignHit(Player attacker) {
+	public void onBeignHit(ActivePlayer attacker) {
 	
 		layer.setFrames(1);
 		layer.setSpeed(100);
@@ -199,21 +199,21 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		
 		animate(now);
 
-		if(state.contains(PlayerState.WALK_RIGHT)) {
+		if(states.contains(PlayerState.WALK_RIGHT)) {
 			
 			this.buffer.setOffsetX(walkSpeed);
 			
-		} else if(state.contains(PlayerState.WALK_LEFT)) {
+		} else if(states.contains(PlayerState.WALK_LEFT)) {
 			
 			this.buffer.setOffsetX(-walkSpeed);
 			
 		}
 
-		if(state.contains(PlayerState.WALK_DOWN)) {
+		if(states.contains(PlayerState.WALK_DOWN)) {
 			
 			this.buffer.setOffsetY(walkSpeed);
 			
-		} else if(state.contains(PlayerState.WALK_UP)) {
+		} else if(states.contains(PlayerState.WALK_UP)) {
 			
 			this.buffer.setOffsetY(-walkSpeed);
 			
@@ -235,10 +235,8 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	protected void changeState() {
 				
 		onFrameChange(0);
-				
 	}
 
-	@Override
 	//And On state change
 	public void onFrameChange(long now) {
 				

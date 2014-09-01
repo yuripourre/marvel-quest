@@ -2,9 +2,10 @@ package com.marvel.quest.hero;
 
 import br.com.etyllica.core.Drawable;
 import br.com.etyllica.layer.GeometricLayer;
-import br.com.tide.platform.player.Player;
+import br.com.tide.platform.player.PlatformPlayer;
+import br.com.tide.platform.player.PlatformPlayerListener;
 
-public abstract class MarvelCharacter extends Player implements Drawable, Comparable<MarvelCharacter> {
+public abstract class MarvelCharacter extends PlatformPlayer implements Drawable, Comparable<MarvelCharacter>, PlatformPlayerListener {
 
 	protected boolean turnedRight = true;
 	
@@ -15,12 +16,13 @@ public abstract class MarvelCharacter extends Player implements Drawable, Compar
 	public MarvelCharacter(String path) {
 		super();
 	
+		this.listener = this;
+		
 		this.turnedRight = true;
 		
 		this.path = path;
 	
-		shadow = new GeometricLayer();
-		
+		shadow = new GeometricLayer();				
 	}
 
 	@Override

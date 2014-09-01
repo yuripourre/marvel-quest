@@ -22,7 +22,7 @@ public class MarvelGame extends EtyllicaFrame {
 
 	@Override
 	public Application startApplication() {
-				
+		
 		return new FirstStage(w, h);
 	}
 
