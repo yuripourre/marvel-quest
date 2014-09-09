@@ -16,6 +16,8 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	
 	protected BufferedLayer buffer;
 	
+	boolean needRedraw = false;
+	
 	public Hero(int x, int y, String path) {
 		super(path);
 
@@ -27,8 +29,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		
 		buffer = new BufferedLayer(x, y, 96, 96);//Max Tile Size
 					
-		onStand();
-		
+		onStand();		
 	}
 
 	public abstract void onWalk();
@@ -49,7 +50,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		layer.setNeedleY(layer.getTileH()*1);
 		
 		changeState();
-
 	}
 	
 	@Override
@@ -68,7 +68,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		layer.setNeedleY(layer.getTileH()*2);
 		
 		changeState();
-
 	}
 	
 	@Override
@@ -84,7 +83,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		turnedRight = false;
 
 		animateWalk();
-		
 	}
 
 	@Override
@@ -93,7 +91,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		turnedRight = true;
 
 		animateWalk();
-
 	}
 
 	@Override
@@ -110,10 +107,8 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 
 		if(!isWalking()) {
 
-			onWalk();
-			
-		}
-			
+			onWalk();			
+		}			
 	}
 
 	@Override
@@ -122,7 +117,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		if(!isWalking()) {
 			this.stand();			
 		}
-
 	}
 
 	@Override
@@ -131,7 +125,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		if(!isWalking()) {
 			this.stand();
 		}
-
 	}
 
 	@Override
@@ -140,7 +133,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		if(!isWalking()) {
 			this.stand();
 		}
-
 	}
 
 	@Override
@@ -149,7 +141,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		if(!isWalking()) {
 			this.stand();
 		}
-
 	}
 
 	@Override
@@ -159,36 +150,36 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		drawShadow(g);
 		
 		g.setAlpha(100);
-		buffer.draw(g);
-				
+		
+		if(needRedraw)
+			redraw(g);
+		
+		buffer.draw(g);				
 	}
 	
 	private void drawShadow(Graphic g) {
 				
 		g.setColor(Color.BLACK);
 				
-		g.fillOval(shadow);
-		
+		g.fillOval(shadow);		
 	}
 	
 	private GeometricLayer updateShadow() {
 				
 		int shadowSize = 16;
 		
-		int width = buffer.getModifiedBuffer().getWidth();
+		int width = buffer.getBuffer().getWidth();
 		
 		int dif = width-layer.getTileW();
 		
 		shadow.setBounds(buffer.getX()+dif/2, buffer.getY()+layer.getTileH()-shadowSize*2/3, layer.getTileW(), shadowSize);
 		
-		return shadow;
-		
+		return shadow;		
 	}
 
 	public void animate(long now) {
 		
-		layer.animate(now);
-		
+		layer.animate(now);		
 	}
 
 	@Override
@@ -223,8 +214,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 
 	public int getX() {
 		
-		return buffer.getX()+shadow.getW()/2;
-		
+		return buffer.getX()+shadow.getW()/2;		
 	}
 	
 	public int getY() {
@@ -236,15 +226,20 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 				
 		onFrameChange(0);
 	}
-
+	
 	//And On state change
 	public void onFrameChange(long now) {
-				
+		
 		buffer.clearGraphics();
 		
-		Graphic g = buffer.getGraphics();
+		needRedraw = true;
+	}
+	
+	private void redraw(Graphic g) {
 				
-		int width = buffer.getModifiedBuffer().getWidth();
+		g.setImage(buffer.getBuffer());
+		
+		int width = buffer.getBuffer().getWidth();
 		
 		int dif = width-layer.getTileW();
 		
@@ -259,8 +254,10 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		if(!turnedRight) {
 			buffer.flipHorizontal();
 		}
-
+		
+		g.resetImage();
+		
+		needRedraw = false;		
 	}
-
 
 }

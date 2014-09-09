@@ -1,7 +1,7 @@
-import com.marvel.quest.FirstStage;
-
 import br.com.etyllica.EtyllicaFrame;
 import br.com.etyllica.context.Application;
+
+import com.marvel.quest.FirstStage;
 
 
 public class MarvelGame extends EtyllicaFrame {
@@ -17,11 +17,12 @@ public class MarvelGame extends EtyllicaFrame {
 		MarvelGame game = new MarvelGame();
 		
 		game.init();
-
 	}
 
 	@Override
 	public Application startApplication() {
+		
+		this.setPath(MarvelGame.class.getResource(""));
 		
 		return new FirstStage(w, h);
 	}
