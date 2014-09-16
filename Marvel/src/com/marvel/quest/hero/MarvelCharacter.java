@@ -2,10 +2,10 @@ package com.marvel.quest.hero;
 
 import br.com.etyllica.core.Drawable;
 import br.com.etyllica.layer.GeometricLayer;
-import br.com.tide.platform.player.PlatformPlayer;
-import br.com.tide.platform.player.PlatformPlayerListener;
+import br.com.tide.arcade.player.ArcadePlayer;
+import br.com.tide.arcade.player.ArcadePlayerListener;
 
-public abstract class MarvelCharacter extends PlatformPlayer implements Drawable, Comparable<MarvelCharacter>, PlatformPlayerListener {
+public abstract class MarvelCharacter extends ArcadePlayer implements Drawable, Comparable<MarvelCharacter>, ArcadePlayerListener {
 
 	protected boolean turnedRight = true;
 	
