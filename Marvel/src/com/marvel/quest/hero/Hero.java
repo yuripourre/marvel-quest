@@ -9,6 +9,7 @@ import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.layer.GeometricLayer;
 import br.com.tide.ActivePlayer;
 import br.com.tide.PlayerState;
+import br.com.tide.arcade.player.ArcadePlayer;
 
 public abstract class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
@@ -21,7 +22,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	public Hero(int x, int y, String path) {
 		super(path);
 
-		walkSpeed = 3;
+		currentSpeed = 3;
 				
 		layer = new AnimatedLayer(0, 0, 64, 96, path);
 		
@@ -39,15 +40,17 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 		
 		layer.setFrames(3);
 		layer.setSpeed(180);
-
+		
 		layer.setTileW(96);
 		layer.setTileH(96);
 		
 		layer.setXImage(layer.getTileW()*1);
 		layer.setYImage(layer.getTileH()*1);
-
-		layer.setNeedleX(layer.getTileW()*1);
+		
+		layer.setNeedleX(64);
 		layer.setNeedleY(layer.getTileH()*1);
+		
+		layer.restartAnimation();
 		
 		changeState();
 	}
@@ -78,7 +81,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onWalkLeft() {
+	public void onWalkLeft(ArcadePlayer player) {
 
 		turnedRight = false;
 
@@ -86,7 +89,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onWalkRight() {
+	public void onWalkRight(ArcadePlayer player) {
 
 		turnedRight = true;
 
@@ -94,12 +97,12 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onWalkDown() {
+	public void onWalkDown(ArcadePlayer player) {
 		animateWalk();
 	}
 
 	@Override
-	public void onWalkUp() {
+	public void onWalkUp(ArcadePlayer player) {
 		animateWalk();
 	}
 	
@@ -112,7 +115,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onStopWalkUp() {
+	public void onStopWalkUp(ArcadePlayer player) {
 
 		if(!isWalking()) {
 			this.stand();			
@@ -120,7 +123,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onStopWalkDown() {
+	public void onStopWalkDown(ArcadePlayer player) {
 
 		if(!isWalking()) {
 			this.stand();
@@ -128,7 +131,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onStopWalkRight() {
+	public void onStopWalkRight(ArcadePlayer player) {
 
 		if(!isWalking()) {
 			this.stand();
@@ -136,7 +139,7 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onStopWalkLeft() {
+	public void onStopWalkLeft(ArcadePlayer player) {
 
 		if(!isWalking()) {
 			this.stand();
@@ -192,21 +195,21 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 
 		if(states.contains(PlayerState.WALK_RIGHT)) {
 			
-			this.buffer.setOffsetX(walkSpeed);
+			this.buffer.setOffsetX(currentSpeed);
 			
 		} else if(states.contains(PlayerState.WALK_LEFT)) {
 			
-			this.buffer.setOffsetX(-walkSpeed);
+			this.buffer.setOffsetX(-currentSpeed);
 			
 		}
 
 		if(states.contains(PlayerState.WALK_DOWN)) {
 			
-			this.buffer.setOffsetY(walkSpeed);
+			this.buffer.setOffsetY(currentSpeed);
 			
 		} else if(states.contains(PlayerState.WALK_UP)) {
 			
-			this.buffer.setOffsetY(-walkSpeed);
+			this.buffer.setOffsetY(-currentSpeed);
 			
 		}
 

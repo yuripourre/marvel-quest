@@ -7,7 +7,7 @@ public class StrongMan extends Enemy {
 	public StrongMan(int x, int y) {
 		super(x, y, "sprites/strongman.png");
 		
-		onWalkLeft();
+		onWalkLeft(this);
 		
 		onStand();
 	}
