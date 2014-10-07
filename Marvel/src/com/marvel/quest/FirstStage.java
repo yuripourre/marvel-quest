@@ -75,16 +75,13 @@ public class FirstStage extends Application {
 	}
 	
 	@Override
-	public void timeUpdate(long now){
+	public void timeUpdate(long now) {
 		
-		hank.update(now);
+		for(MarvelCharacter character: characters) {
+			character.update(now);
+		}
 		
-		strongMan.update(now);
-		
-		gambit.update(now);
-		
-		Collections.sort(characters);
-		
+		Collections.sort(characters);		
 	}
 	
 	@Override
@@ -93,9 +90,7 @@ public class FirstStage extends Application {
 		background.draw(g);
 		
 		for(MarvelCharacter character: characters) {
-			
 			character.draw(g);
-			
 		}
 				
 	}
