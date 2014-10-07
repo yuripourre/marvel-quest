@@ -44,5 +44,25 @@ public class Gambit extends Hero {
 		changeState();
 		
 	}
+	
+	@Override
+	public void onAttack() {
+		
+		layer.setFrames(3);
+		layer.setSpeed(180);
+		
+		layer.setTileW(96);
+		layer.setTileH(96);
+		
+		layer.setXImage(layer.getTileW()*1);
+		layer.setYImage(layer.getTileH()*1);
+		
+		layer.setNeedleX(layer.getTileW()*1);
+		layer.setNeedleY(layer.getTileH()*1);
+		
+		layer.restartAnimation();
+		
+		changeState();
+	}
 
 }
