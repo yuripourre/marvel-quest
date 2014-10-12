@@ -4,13 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.marvel.quest.enemy.Enemy;
-import com.marvel.quest.enemy.StrongMan;
-import com.marvel.quest.hero.Beast;
-import com.marvel.quest.hero.Gambit;
-import com.marvel.quest.hero.MarvelCharacter;
-
-import br.com.etyllica.context.Application;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -21,14 +14,20 @@ import br.com.tide.input.controller.Controller;
 import br.com.tide.input.controller.EasyController;
 import br.com.tide.input.controller.FirstPlayerController;
 
-public class FirstStage extends Application {
+import com.marvel.quest.enemy.Enemy;
+import com.marvel.quest.enemy.StrongMan;
+import com.marvel.quest.hero.Beast;
+import com.marvel.quest.hero.Gambit;
+import com.marvel.quest.hero.MarvelCharacter;
+
+public class FirstStage extends Stage {
 
 	public FirstStage(int w, int h) {
 		super(w, h);
 	}
 
 	private List<MarvelCharacter> characters = new ArrayList<MarvelCharacter>();
-	
+		
 	private ImageLayer background;
 	
 	private BufferedLayer wolverine;
@@ -53,15 +52,18 @@ public class FirstStage extends Application {
 		wolverine.setH(64);
 		wolverine.flipHorizontal();
 		
-		hank = new Beast(40, 100);
+		hank = new Beast(40, 100, this);
+		heroes.add(hank);
 		
-		gambit = new Gambit(500, 100);
+		gambit = new Gambit(500, 100, this);
+		heroes.add(gambit);
 		
 		easyController = new EasyController(hank);
 		
 		firstPlayerController = new FirstPlayerController(gambit);
 		
-		strongMan = new StrongMan(300, 100);
+		strongMan = new StrongMan(300, 100, this);
+		enemies.add(strongMan);
 		
 		strongMan.setTarget(hank);
 		
@@ -76,6 +78,8 @@ public class FirstStage extends Application {
 	
 	@Override
 	public void timeUpdate(long now) {
+		
+		updateEnemies(now);
 		
 		for(MarvelCharacter character: characters) {
 			character.update(now);

@@ -9,7 +9,7 @@ import br.com.etyllica.layer.BufferedLayer;
 import br.com.etyllica.layer.GeometricLayer;
 import br.com.tide.ActivePlayer;
 import br.com.tide.PlayerState;
-import br.com.tide.arcade.player.ArcadePlayer;
+import br.com.tide.arcade.player.ArcadePlayerListener;
 
 public abstract class Hero extends MarvelCharacter implements OnFrameChangeListener {
 
@@ -19,8 +19,8 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	
 	boolean needRedraw = false;
 	
-	public Hero(int x, int y, String path) {
-		super(path);
+	public Hero(int x, int y, String path, ArcadePlayerListener<MarvelCharacter> listener) {
+		super(path, listener);
 
 		currentSpeed = 3;
 				
@@ -32,8 +32,6 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 					
 		onStand();		
 	}
-
-	public abstract void onWalk();
 	
 	@Override
 	public void onAttack() {
@@ -81,71 +79,71 @@ public abstract class Hero extends MarvelCharacter implements OnFrameChangeListe
 	}
 
 	@Override
-	public void onWalkLeft(ArcadePlayer player) {
-
-		turnedRight = false;
+	public void walkLeft() {
+		
+		turnLeft();
 
 		animateWalk();
+		
+		super.walkLeft();
 	}
 
 	@Override
-	public void onWalkRight(ArcadePlayer player) {
+	public void walkRight() {
 
-		turnedRight = true;
+		turnRight();
 
 		animateWalk();
-	}
-
-	@Override
-	public void onWalkDown(ArcadePlayer player) {
-		animateWalk();
-	}
-
-	@Override
-	public void onWalkUp(ArcadePlayer player) {
-		animateWalk();
+		
+		super.walkRight();
 	}
 	
-	private void animateWalk() {
-
-		if(!isWalking()) {
-
-			onWalk();			
-		}			
+	@Override
+	public void walkDown() {
+		animateWalk();
+		
+		super.walkDown();
 	}
 
 	@Override
-	public void onStopWalkUp(ArcadePlayer player) {
+	public void walkUp() {
+		animateWalk();
+		
+		super.walkUp();
+	}
+	
+	@Override
+	public void stopWalkUp() {
+		
+		checkWalk();
+		
+		super.stopWalkUp();
+	}
+	
+	@Override
+	public void stopWalkDown() {
 
-		if(!isWalking()) {
-			this.stand();			
-		}
+		checkWalk();
+		
+		super.stopWalkDown();
 	}
 
 	@Override
-	public void onStopWalkDown(ArcadePlayer player) {
+	public void stopWalkRight() {
 
-		if(!isWalking()) {
-			this.stand();
-		}
+		checkWalk();
+		
+		super.stopWalkRight();
 	}
 
 	@Override
-	public void onStopWalkRight(ArcadePlayer player) {
+	public void stopWalkLeft() {
 
-		if(!isWalking()) {
-			this.stand();
-		}
+		checkWalk();
+		
+		super.stopWalkLeft();
 	}
-
-	@Override
-	public void onStopWalkLeft(ArcadePlayer player) {
-
-		if(!isWalking()) {
-			this.stand();
-		}
-	}
-
+	
 	@Override
 	public void draw(Graphic g) {
 	

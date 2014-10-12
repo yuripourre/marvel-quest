@@ -3,27 +3,29 @@ package com.marvel.quest.enemy;
 import sound.model.Sound;
 import br.com.etyllica.animation.listener.OnAnimationFinishListener;
 import br.com.tide.PlayerState;
+import br.com.tide.arcade.player.ArcadePlayerListener;
 
 import com.marvel.quest.hero.Hero;
+import com.marvel.quest.hero.MarvelCharacter;
 
 public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 
 	private Hero target;
 
-	private long attackDelay = 2000;
-
 	private long startAttack = 0;
-	
+
 	private Sound punchSound;
 
-	public Enemy(int x, int y, String rightPath) {
-		super(x, y, rightPath);
+	public Enemy(int x, int y, String rightPath, ArcadePlayerListener<MarvelCharacter> listener) {
+		super(x, y, rightPath, listener);
 
 		this.layer.setOnAnimationFinishListener(this);
-		
+
 		punchSound = new Sound("punch.wav");
+
+		attackDelay = 2000;
 	}
-		
+
 	protected boolean wasWalking = false;
 
 	@Override
@@ -35,21 +37,27 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 			boolean isWalkingVertical = walkVertical();
 
 			boolean isWalkingHorizontal = walkHorizontal();
-			
+
 			if(isWalkingHorizontal||isWalkingVertical) {
-				
+
 				wasWalking = true;
-				
+
 			} else {
 
 				if(wasWalking) {
-				
+
 					startAttack = now;
 
 					stand();
-					
+
 					wasWalking = false;
 				}
+
+				/*if(isBeignHit()) {
+					if(now >= wasHit+hitDelay) {
+						stand();
+					}
+				}*/
 
 				if(now >= startAttack+attackDelay) {
 
@@ -59,7 +67,7 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 
 						startAttack = now;
 
-					}					
+					}
 
 				}
 
@@ -68,11 +76,11 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 		}
 
 	}
-	
+
 	@Override
 	public void attack() {
 		super.attack();
-		
+
 		punchSound.play();
 	}
 
@@ -85,13 +93,13 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 		if(target.getY() < this.getY()-verticalDistance) {
 
 			walkUp();
-			
+
 			walkVertical = true;
 
 		} else if(target.getY() > this.getY()+verticalDistance) {
 
 			walkDown();
-			
+
 			walkVertical = true;
 
 		} else if(hasState(PlayerState.WALK_UP, PlayerState.WALK_DOWN)) {
@@ -115,13 +123,13 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 		if(target.getX() < this.getX()-horizontalDistance) {
 
 			walkLeft();
-			
+
 			walkHorizontal = true;
 
 		} else if(target.getX() > this.getX()+horizontalDistance) {
 
 			walkRight();
-			
+
 			walkHorizontal = true;
 
 		} else if(hasState(PlayerState.WALK_LEFT, PlayerState.WALK_RIGHT)) {
@@ -147,23 +155,21 @@ public abstract class Enemy extends Hero implements OnAnimationFinishListener {
 	public void onAnimationFinish(long now) {
 
 		if(isAttacking()) {
-			
+
 			hitTarget(now);
-			
-			stand();
-		
+
+			stand();		
 		}
 
 	}
-	
+
 	private void hitTarget(long now) {
-		
+
 		if(target == null) {
 			return;
 		}
-		
-		target.beignHit(this, now);
-		
+
+		target.beignHit(this, now);		
 	}
 
 }
