@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import br.com.etyllica.context.UpdateIntervalListener;
 import br.com.etyllica.core.event.GUIEvent;
 import br.com.etyllica.core.event.KeyEvent;
 import br.com.etyllica.core.event.PointerEvent;
@@ -20,7 +21,7 @@ import com.marvel.quest.hero.Beast;
 import com.marvel.quest.hero.Gambit;
 import com.marvel.quest.hero.MarvelCharacter;
 
-public class FirstStage extends Stage {
+public class FirstStage extends Stage implements UpdateIntervalListener {
 
 	public FirstStage(int w, int h) {
 		super(w, h);
@@ -71,7 +72,7 @@ public class FirstStage extends Stage {
 		characters.add(hank);
 		characters.add(gambit);
 		
-		updateAtFixedRate(30);
+		updateAtFixedRate(30, this);
 		
 		loading = 100;
 	}
